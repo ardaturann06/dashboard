@@ -7,45 +7,69 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --t:#00ffc8;--p:#b06fff;--b:#4db8ff;--a:#ffb347;--r:#ff4d6d;--g:#00e676;
-  --bg:#07070d;--s1:rgba(255,255,255,0.04);--s2:rgba(255,255,255,0.07);
-  --br:rgba(255,255,255,0.08);--tx:#ddddf0;--mu:#55556a;
-}
+:root{--t:#00ffc8;--p:#b06fff;--b:#4db8ff;--a:#ffb347;--r:#ff4d6d;--g:#00e676;--bg:#07070d;--s1:rgba(255,255,255,0.04);--br:rgba(255,255,255,0.08);--tx:#ddddf0;--mu:#55556a}
 html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Syne',sans-serif;overflow-x:hidden}
+input[type="date"]{color-scheme:dark}
+
+/* ORBS */
 .orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;animation:drift 20s ease-in-out infinite}
-.o1{width:700px;height:700px;top:-250px;left:-200px;background:rgba(0,255,200,0.06);animation-delay:0s}
+.o1{width:700px;height:700px;top:-250px;left:0;background:rgba(0,255,200,0.06)}
 .o2{width:500px;height:500px;bottom:-200px;right:-150px;background:rgba(176,111,255,0.07);animation-delay:-7s}
-.o3{width:400px;height:400px;top:30%;left:35%;background:rgba(77,184,255,0.04);animation-delay:-13s}
+.o3{width:400px;height:400px;top:30%;left:50%;background:rgba(77,184,255,0.04);animation-delay:-13s}
 @keyframes drift{0%,100%{transform:translate(0,0)}33%{transform:translate(30px,-20px)}66%{transform:translate(-20px,30px)}}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.02) 3px,rgba(0,0,0,0.02) 6px);pointer-events:none;z-index:1}
-.wrap{position:relative;z-index:2;max-width:1380px;margin:0 auto;padding:22px 22px 48px}
 
-/* GLASS CARD */
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:rgba(5,5,11,0.97);border-right:1px solid var(--br);z-index:100;display:flex;flex-direction:column;backdrop-filter:blur(20px)}
+.sb-logo{padding:22px 20px 18px;font-size:22px;font-weight:800;color:#fff;letter-spacing:-1px;border-bottom:1px solid var(--br)}
+.sb-logo em{font-style:normal;color:var(--t)}
+.sb-clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);padding:10px 20px;border-bottom:1px solid var(--br);letter-spacing:1px}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
+.sb-section{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);padding:14px 20px 5px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:13px;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;border-left:2px solid transparent}
+.sb-item:hover{color:var(--tx);background:rgba(255,255,255,0.04)}
+.sb-item.active{color:var(--t);border-left-color:var(--t);background:rgba(0,255,200,0.05)}
+.sb-item .si{width:18px;text-align:center}
+.sb-footer{padding:12px 20px;border-top:1px solid var(--br);font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mu)}
+
+/* MAIN */
+.main{margin-left:220px;min-height:100vh;position:relative;z-index:2}
+.page{display:none}
+.page.active{display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:22px 22px 48px}
+
+/* CARDS */
 .card{background:var(--s1);border:1px solid var(--br);border-radius:20px;padding:20px 22px;position:relative;overflow:hidden;transition:border-color .3s,transform .25s}
 .card:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-2px)}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent)}
 .clabel{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);margin-bottom:14px}
 
-/* HEADER */
+/* PAGE HEADER */
+.page-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.page-title{font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px}
+.page-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);margin-top:3px;letter-spacing:.5px}
+.btn{background:rgba(0,255,200,.1);border:1px solid rgba(0,255,200,.2);color:var(--t);border-radius:9px;padding:8px 16px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;transition:all .2s}
+.btn:hover{background:rgba(0,255,200,.18)}
+
+/* HOME HEADER */
 .hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
 .badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t);background:rgba(0,255,200,0.06);border:1px solid rgba(0,255,200,0.16);border-radius:100px;padding:5px 13px;margin-bottom:7px;width:fit-content}
 .pdot{width:6px;height:6px;border-radius:50%;background:var(--t);box-shadow:0 0 10px var(--t);animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .htitle{font-size:34px;font-weight:800;color:#fff;letter-spacing:-1.5px;line-height:1}
 .htitle em{font-style:normal;color:var(--t)}
 .clk-time{font-family:'JetBrains Mono',monospace;font-size:46px;font-weight:700;color:#fff;letter-spacing:-3px;text-align:right;line-height:1}
-.clk-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);text-align:right;margin-top:4px;letter-spacing:.5px}
+.clk-date{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu);text-align:right;margin-top:4px}
 
 /* GRID */
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:13px}
-.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c8{grid-column:span 8}.c12{grid-column:span 12}
 
 /* WEATHER */
 .wtemp{font-size:62px;font-weight:800;color:#fff;line-height:1}
 .wtemp sup{font-size:22px;font-weight:300;color:var(--mu);vertical-align:top;margin-top:8px}
-.wemoji{font-size:54px;position:absolute;right:22px;top:20px;filter:drop-shadow(0 0 20px rgba(255,200,50,.35))}
-.wcity{font-size:13px;font-weight:700;color:var(--t);margin-top:2px;letter-spacing:.5px}
+.wemoji{font-size:54px;position:absolute;right:22px;top:20px}
+.wcity{font-size:13px;font-weight:700;color:var(--t);margin-top:2px}
 .wdesc{font-size:12px;color:var(--mu);margin-top:1px}
 .wstats{display:flex;gap:18px;margin-top:14px;padding-top:13px;border-top:1px solid var(--br)}
 .ws-item{display:flex;flex-direction:column;gap:2px}
@@ -53,7 +77,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .ws-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--tx)}
 .forecast{display:flex;gap:7px;margin-top:12px}
 .fc{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--br);border-radius:10px;padding:7px 4px;text-align:center}
-.fcday{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--mu);text-transform:uppercase}
+.fcday{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--mu);text-transform:uppercase}
 .fci{font-size:17px;margin:4px 0}
 .fct{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--tx)}
 
@@ -62,15 +86,25 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .crow:last-child{border-bottom:none}
 .cleft{display:flex;align-items:center;gap:10px}
 .cflag{font-size:22px}
-.cname{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#fff;letter-spacing:1px}
+.cname{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:#fff}
 .cfull{font-size:10px;color:var(--mu);margin-top:1px}
-.cright{text-align:right}
 .cval{font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;color:#fff}
 .ctag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:5px;display:inline-block;margin-top:3px}
-.cup{background:rgba(0,230,118,.1);color:var(--g)}
-.cdn{background:rgba(255,77,109,.1);color:var(--r)}
+.cup{background:rgba(0,230,118,.1);color:var(--g)}.cdn{background:rgba(255,77,109,.1);color:var(--r)}
 .sparkwrap{margin-top:14px;padding-top:13px;border-top:1px solid var(--br)}
 .spark-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:6px}
+
+/* HGS */
+.hgs-bal{font-size:44px;font-weight:800;color:#fff;letter-spacing:-2px;line-height:1}
+.hgs-bal span{font-size:18px;font-weight:400;color:var(--mu);margin-left:3px}
+.hgs-status{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:8px;padding:4px 10px;border-radius:7px}
+.hgs-ok{background:rgba(0,230,118,.08);color:var(--g);border:1px solid rgba(0,230,118,.15)}
+.hgs-txs{margin-top:14px;padding-top:13px;border-top:1px solid var(--br)}
+.htx{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.htx:last-child{border-bottom:none}
+.htx-where{font-size:12px;font-weight:600;color:var(--tx)}
+.htx-when{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu)}
+.htx-amt{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:var(--r)}
 
 /* STEAM */
 .sgame{display:flex;align-items:center;gap:11px;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,0.04);border-radius:10px;cursor:pointer;transition:background .2s;margin:0 -6px}
@@ -81,49 +115,28 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .sname{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stags{display:flex;gap:4px;margin-top:3px}
 .stag{font-family:'JetBrains Mono',monospace;font-size:8.5px;padding:1.5px 5px;border-radius:4px;background:rgba(255,255,255,0.05);color:var(--mu)}
-.sprice{text-align:right;flex-shrink:0}
 .sdisc{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;background:rgba(0,255,200,.1);color:var(--t);border:1px solid rgba(0,255,200,.2);border-radius:5px;padding:1.5px 6px;display:inline-block;margin-bottom:3px}
 .sold{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu);text-decoration:line-through;display:block}
 .snew{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--g);display:block}
-.sfree{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--t)}
-.steam-refresh{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);margin-top:12px;padding-top:10px;border-top:1px solid var(--br);text-align:right;cursor:pointer;transition:color .2s}
+.steam-refresh{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);margin-top:12px;padding-top:10px;border-top:1px solid var(--br);text-align:right;cursor:pointer}
 .steam-refresh:hover{color:var(--t)}
 
-/* HGS */
-.hgs-bal{font-size:44px;font-weight:800;color:#fff;letter-spacing:-2px;line-height:1}
-.hgs-bal span{font-size:18px;font-weight:400;color:var(--mu);margin-left:3px}
-.hgs-status{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-top:8px;padding:4px 10px;border-radius:7px}
-.hgs-ok{background:rgba(0,230,118,.08);color:var(--g);border:1px solid rgba(0,230,118,.15)}
-.hgs-warn{background:rgba(255,179,71,.08);color:var(--a);border:1px solid rgba(255,179,71,.15)}
-.hgs-txs{margin-top:14px;padding-top:13px;border-top:1px solid var(--br)}
-.htx{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
-.htx:last-child{border-bottom:none}
-.htx-left{display:flex;flex-direction:column;gap:2px}
-.htx-where{font-size:12px;font-weight:600;color:var(--tx)}
-.htx-when{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu)}
-.htx-amt{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:var(--r)}
-
-/* IT TASKS */
+/* TASKS */
 .task{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
 .task:last-child{border-bottom:none}
-.tcheck{width:18px;height:18px;border-radius:5px;border:1px solid var(--br);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s;background:transparent}
+.tcheck{width:18px;height:18px;border-radius:5px;border:1px solid var(--br);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
 .tcheck.done{background:rgba(0,255,200,.12);border-color:rgba(0,255,200,.3);color:var(--t)}
-.tinfo{flex:1;min-width:0}
-.ttext{font-size:13px;font-weight:500;color:var(--tx);transition:all .2s}
+.ttext{font-size:13px;font-weight:500;color:var(--tx);flex:1}
 .ttext.done{text-decoration:line-through;color:var(--mu)}
-.tprio{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:4px;flex-shrink:0}
-.tp-high{background:rgba(255,77,109,.1);color:var(--r)}
-.tp-med{background:rgba(255,179,71,.1);color:var(--a)}
-.tp-low{background:rgba(77,184,255,.1);color:var(--b)}
+.tprio{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:4px}
+.tp-high{background:rgba(255,77,109,.1);color:var(--r)}.tp-med{background:rgba(255,179,71,.1);color:var(--a)}.tp-low{background:rgba(77,184,255,.1);color:var(--b)}
 .tasks-add{display:flex;gap:8px;margin-top:14px;padding-top:13px;border-top:1px solid var(--br)}
-.tasks-add input{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--br);border-radius:9px;padding:8px 12px;color:var(--tx);font-family:'Syne',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
-.tasks-add input:focus{border-color:rgba(0,255,200,.3)}
-.tasks-add input::placeholder{color:var(--mu)}
-.tasks-add button{background:rgba(0,255,200,.1);border:1px solid rgba(0,255,200,.2);color:var(--t);border-radius:9px;padding:8px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;transition:all .2s}
-.tasks-add button:hover{background:rgba(0,255,200,.18)}
+.fin{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--br);border-radius:9px;padding:8px 12px;color:var(--tx);font-family:'Syne',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+.fin:focus{border-color:rgba(0,255,200,.3)}
+.fin::placeholder{color:var(--mu)}
+.tasks-add .btn{padding:8px 14px}
 
-
-/* MINI STAT CARDS */
+/* STAT ROW */
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:13px}
 .stat{background:rgba(255,255,255,0.03);border:1px solid var(--br);border-radius:12px;padding:12px 14px}
 .stat-num{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff;line-height:1}
@@ -133,307 +146,608 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .loading{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mu)}
 .lds{display:flex;gap:3px}
 .lds span{width:4px;height:4px;border-radius:50%;background:var(--mu);animation:bounce .9s ease-in-out infinite}
-.lds span:nth-child(2){animation-delay:.15s}
-.lds span:nth-child(3){animation-delay:.3s}
+.lds span:nth-child(2){animation-delay:.15s}.lds span:nth-child(3){animation-delay:.3s}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.nt{color:var(--t)}.np{color:var(--p)}.nb{color:var(--b)}
 
-/* NEON ACCENTS */
-.nt{color:var(--t)} .np{color:var(--p)} .nb{color:var(--b)} .na{color:var(--a)} .nr{color:var(--r)} .ng{color:var(--g)}
+/* NEWS */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.news-card{background:var(--s1);border:1px solid var(--br);border-radius:16px;padding:16px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;text-decoration:none;display:block}
+.news-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent)}
+.news-card:hover{border-color:rgba(0,255,200,.2);transform:translateY(-2px)}
+.news-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--t);margin-bottom:8px}
+.news-title{font-size:13px;font-weight:700;color:#fff;line-height:1.45;margin-bottom:8px}
+.news-desc{font-size:11.5px;color:var(--mu);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.news-date{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu);margin-top:8px}
+
+/* CRYPTO */
+.crypto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.crypto-card{background:var(--s1);border:1px solid var(--br);border-radius:16px;padding:18px 20px;position:relative;overflow:hidden;transition:all .25s}
+.crypto-card:hover{border-color:rgba(255,255,255,.14);transform:translateY(-2px)}
+.crypto-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent)}
+.crypto-logo{font-size:26px;margin-bottom:4px}
+.crypto-name{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.crypto-usd{font-size:24px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
+.crypto-try{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mu);margin-top:3px}
+.crypto-ch{font-family:'JetBrains Mono',monospace;font-size:11px;padding:3px 8px;border-radius:6px;display:inline-block;margin-top:6px}
+.crypto-spark{margin-top:10px;padding-top:10px;border-top:1px solid var(--br)}
+
+/* CALENDAR */
+.cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.cal-day{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:12px;min-height:150px;transition:border-color .2s}
+.cal-day.today{border-color:rgba(0,255,200,.3);background:rgba(0,255,200,.04)}
+.cal-day-name{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:3px}
+.cal-day-num{font-size:22px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1}
+.cal-day.today .cal-day-num{color:var(--t)}
+.cal-event{font-size:10.5px;font-weight:500;padding:4px 7px;border-radius:6px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;gap:4px}
+.ev-del{font-size:10px;color:var(--r);cursor:pointer;opacity:0;transition:opacity .2s;flex-shrink:0}
+.cal-event:hover .ev-del{opacity:1}
+.ev-work{background:rgba(0,255,200,.1);color:var(--t);border:1px solid rgba(0,255,200,.18)}
+.ev-personal{background:rgba(176,111,255,.1);color:var(--p);border:1px solid rgba(176,111,255,.18)}
+.ev-reminder{background:rgba(255,179,71,.1);color:var(--a);border:1px solid rgba(255,179,71,.18)}
+.cal-add{display:flex;gap:8px;flex-wrap:wrap}
+.cal-add select{background:rgba(255,255,255,0.04);border:1px solid var(--br);border-radius:9px;padding:8px 12px;color:var(--tx);font-family:'Syne',sans-serif;font-size:12px;outline:none}
+.cal-add select option{background:#07070d}
+
+/* SYSTEM */
+.sys-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.gauge-wrap{text-align:center;padding:8px 0}
+.gauge-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:10px}
+.gauge-val{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:#fff;margin-top:6px;line-height:1}
+.gauge-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);margin-top:3px}
+.sbar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.sbar-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);width:75px;flex-shrink:0}
+.sbar-bg{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.sbar-val{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--tx);width:38px;text-align:right;flex-shrink:0}
+.proc-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.proc-row:last-child{border-bottom:none}
+.proc-name{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--tx)}
+.proc-cpu{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--a)}
+.proc-mem{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--b);margin-left:12px}
+
+/* LINKS */
+.links-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.link-card{background:var(--s1);border:1px solid var(--br);border-radius:16px;padding:18px 16px;cursor:pointer;transition:all .25s;text-align:center;text-decoration:none;display:block;position:relative;overflow:hidden}
+.link-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.13),transparent)}
+.link-card:hover{border-color:rgba(0,255,200,.2);transform:translateY(-3px)}
+.link-icon{font-size:30px;margin-bottom:8px}
+.link-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
+.link-url{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu)}
+.link-del{position:absolute;top:8px;right:10px;font-size:12px;color:var(--mu);cursor:pointer;opacity:0;transition:opacity .2s}
+.link-card:hover .link-del{opacity:1}
+.link-add-card{background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.1);border-radius:16px;padding:18px 16px;cursor:pointer;transition:all .25s;text-align:center}
+.link-add-card:hover{border-color:rgba(0,255,200,.3);background:rgba(0,255,200,.03)}
+.laf{display:none;margin-top:16px;background:var(--s1);border:1px solid var(--br);border-radius:16px;padding:18px}
+.laf.open{display:block}
+.laf-row{display:flex;gap:8px;flex-wrap:wrap}
+.laf-row .btn-cancel{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);color:var(--r);border-radius:9px;padding:8px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px}
+
+/* NOTES */
+.notes-layout{display:grid;grid-template-columns:240px 1fr;gap:13px;align-items:start}
+.note-item{padding:11px 14px;background:var(--s1);border:1px solid var(--br);border-radius:12px;cursor:pointer;transition:all .2s;position:relative;margin-bottom:6px}
+.note-item:hover{border-color:rgba(255,255,255,.14)}
+.note-item.active{border-color:rgba(0,255,200,.3);background:rgba(0,255,200,.05)}
+.note-item-title{font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-item-preview{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-item-date{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--mu);margin-top:4px}
+.note-item-del{position:absolute;top:8px;right:8px;font-size:11px;color:var(--mu);cursor:pointer;opacity:0;transition:opacity .2s}
+.note-item:hover .note-item-del{opacity:1}
+.notes-add-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:rgba(255,255,255,0.02);border:1px dashed rgba(255,255,255,0.1);border-radius:12px;cursor:pointer;font-size:12px;color:var(--mu);transition:all .2s}
+.notes-add-btn:hover{border-color:rgba(0,255,200,.3);color:var(--t)}
+.note-editor{background:var(--s1);border:1px solid var(--br);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.note-title-input{background:transparent;border:none;border-bottom:1px solid var(--br);padding:0 0 10px;color:#fff;font-family:'Syne',sans-serif;font-size:18px;font-weight:700;outline:none;width:100%}
+.note-title-input::placeholder{color:var(--mu)}
+.note-body-input{background:transparent;border:none;color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;outline:none;resize:none;width:100%;min-height:380px}
+.note-body-input::placeholder{color:var(--mu)}
+.note-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--mu);display:flex;justify-content:space-between;align-items:center}
+
+/* MUSIC */
+.music-wrap{display:grid;grid-template-columns:1fr 340px;gap:13px;align-items:start}
+.pl-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--s1);border:1px solid var(--br);border-radius:12px;cursor:pointer;transition:all .2s;margin-bottom:7px}
+.pl-item:hover{border-color:rgba(0,255,200,.2)}
+.pl-item.active{border-color:rgba(0,255,200,.35);background:rgba(0,255,200,.07)}
+.pl-icon{font-size:22px;width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pl-name{font-size:13px;font-weight:700;color:#fff}
+.pl-genre{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu);margin-top:2px}
+.yt-frame{border-radius:16px;overflow:hidden;border:1px solid var(--br)}
+.yt-frame iframe{display:block;width:100%;border:none}
 
 /* RESPONSIVE */
-@media(max-width:1100px){.c3,.c4,.c5,.c6,.c7,.c8{grid-column:span 12}}
+@media(max-width:1100px){
+  .sidebar{width:60px}
+  .sb-logo,.sb-clock,.sb-section,.sb-footer{display:none}
+  .sb-item span:not(.si){display:none}
+  .sb-item{padding:12px;justify-content:center}
+  .main{margin-left:60px}
+  .news-grid,.crypto-grid,.links-grid{grid-template-columns:repeat(2,1fr)}
+  .sys-grid{grid-template-columns:1fr}
+  .music-wrap,.notes-layout{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .c3,.c4,.c5,.c6,.c8{grid-column:span 12}
+  .cal-week{grid-template-columns:repeat(2,1fr)}
+  .news-grid,.crypto-grid,.links-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<div class="o1 orb"></div>
-<div class="o2 orb"></div>
-<div class="o3 orb"></div>
+<div class="o1 orb"></div><div class="o2 orb"></div><div class="o3 orb"></div>
 
-<div class="wrap">
-
-  <!-- HEADER -->
-  <div class="hdr">
-    <div>
-      <div class="badge"><span class="pdot"></span>SİSTEM AKTİF</div>
-      <div class="htitle">ARDA<em>.</em>OS</div>
-    </div>
-    <div>
-      <div class="clk-time" id="clk">00:00:00</div>
-      <div class="clk-date" id="clkdate"></div>
-    </div>
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-logo">ARDA<em>.</em>OS</div>
+  <div class="sb-clock" id="sb-clk">00:00:00</div>
+  <div class="sb-nav">
+    <div class="sb-section">Genel</div>
+    <div class="sb-item active" onclick="showPage('home',this)"><span class="si">🏠</span><span>Ana Sayfa</span></div>
+    <div class="sb-item" onclick="showPage('news',this)"><span class="si">📰</span><span>Haberler</span></div>
+    <div class="sb-item" onclick="showPage('crypto',this)"><span class="si">📈</span><span>Kripto</span></div>
+    <div class="sb-section">Araçlar</div>
+    <div class="sb-item" onclick="showPage('calendar',this)"><span class="si">📅</span><span>Takvim</span></div>
+    <div class="sb-item" onclick="showPage('notes',this)"><span class="si">📝</span><span>Notlar</span></div>
+    <div class="sb-item" onclick="showPage('links',this)"><span class="si">🔗</span><span>Linkler</span></div>
+    <div class="sb-section">Sistem</div>
+    <div class="sb-item" onclick="showPage('system',this)"><span class="si">💻</span><span>Sistem</span></div>
+    <div class="sb-item" onclick="showPage('music',this)"><span class="si">🎵</span><span>Müzik</span></div>
   </div>
+  <div class="sb-footer">v2.0 · ARDA.OS</div>
+</nav>
 
-  <!-- MINI STATS -->
-  <div class="stat-row">
-    <div class="stat">
-      <div class="stat-num nt" id="stat-temp">—</div>
-      <div class="stat-lbl">Hava · Ankara</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-usd">—</div>
-      <div class="stat-lbl">USD/TRY</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num np" id="stat-tasks">0</div>
-      <div class="stat-lbl">Bekleyen Görev</div>
-    </div>
-  </div>
+<main class="main">
 
-  <!-- ROW 1 -->
-  <div class="grid" style="margin-bottom:13px">
-
-    <!-- WEATHER -->
-    <div class="card c4">
-      <div class="clabel">☁ Hava Durumu</div>
-      <div id="weather-body">
-        <div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div>
+<!-- ═══ ANA SAYFA ═══ -->
+<div id="page-home" class="page active">
+  <div class="wrap">
+    <div class="hdr">
+      <div>
+        <div class="badge"><span class="pdot"></span>SİSTEM AKTİF</div>
+        <div class="htitle">ARDA<em>.</em>OS</div>
+      </div>
+      <div>
+        <div class="clk-time" id="clk">00:00:00</div>
+        <div class="clk-date" id="clkdate"></div>
       </div>
     </div>
-
-    <!-- CURRENCY -->
-    <div class="card c4">
-      <div class="clabel">💱 Döviz Kurları</div>
-      <div id="currency-body">
-        <div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num nt" id="stat-temp">—</div><div class="stat-lbl">Hava · Ankara</div></div>
+      <div class="stat"><div class="stat-num" id="stat-usd">—</div><div class="stat-lbl">USD/TRY</div></div>
+      <div class="stat"><div class="stat-num np" id="stat-tasks">0</div><div class="stat-lbl">Bekleyen Görev</div></div>
+    </div>
+    <div class="grid" style="margin-bottom:13px">
+      <div class="card c4">
+        <div class="clabel">☁ Hava Durumu</div>
+        <div id="weather-body"><div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div></div>
+      </div>
+      <div class="card c4">
+        <div class="clabel">💱 Döviz Kurları</div>
+        <div id="currency-body"><div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div></div>
+      </div>
+      <div class="card c4">
+        <div class="clabel">🚗 HGS Bakiyesi</div>
+        <div class="hgs-bal">₺<span id="hgs-bal">247</span><span>TL</span></div>
+        <div class="hgs-status hgs-ok">✓ &nbsp;Bakiye Yeterli</div>
+        <div class="hgs-txs" id="hgs-txs"></div>
       </div>
     </div>
-
-    <!-- HGS -->
-    <div class="card c4">
-      <div class="clabel">🚗 HGS Bakiyesi</div>
-      <div class="hgs-bal">₺<span id="hgs-bal">247</span><span>TL</span></div>
-      <div class="hgs-status hgs-ok">✓ &nbsp;Bakiye Yeterli</div>
-      <div class="hgs-txs" id="hgs-txs"></div>
-    </div>
-
-  </div>
-
-  <!-- ROW 2 -->
-  <div class="grid">
-
-    <!-- STEAM -->
-    <div class="card c5">
-      <div class="clabel">🎮 Steam · Günün İndirimleri</div>
-      <div id="steam-body">
-        <div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div>
+    <div class="grid">
+      <div class="card c5">
+        <div class="clabel">🎮 Steam · Günün İndirimleri</div>
+        <div id="steam-body"></div>
+      </div>
+      <div class="card c4">
+        <div class="clabel">✅ IT Görevleri</div>
+        <div id="tasks-list"></div>
+        <div class="tasks-add">
+          <input class="fin" type="text" id="task-input" placeholder="Yeni görev ekle…"/>
+          <button class="btn" onclick="addTask()">+</button>
+        </div>
       </div>
     </div>
-
-    <!-- IT TASKS -->
-    <div class="card c4">
-      <div class="clabel">✅ IT Görevleri</div>
-      <div id="tasks-list"></div>
-      <div class="tasks-add">
-        <input type="text" id="task-input" placeholder="Yeni görev ekle…" />
-        <button onclick="addTask()">+</button>
-      </div>
-    </div>
-
   </div>
 </div>
 
+<!-- ═══ HABERLER ═══ -->
+<div id="page-news" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">📰 Haberler</div><div class="page-sub">TEKNOLOJİ · GÜNDEM</div></div>
+      <button class="btn" onclick="fetchNews()">↻ Yenile</button>
+    </div>
+    <div id="news-body"><div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div></div>
+  </div>
+</div>
+
+<!-- ═══ KRİPTO ═══ -->
+<div id="page-crypto" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">📈 Kripto Para</div><div class="page-sub" id="crypto-updated">GÜNCELLENİYOR…</div></div>
+      <button class="btn" onclick="fetchCrypto()">↻ Yenile</button>
+    </div>
+    <div id="crypto-body"><div class="loading"><div class="lds"><span></span><span></span><span></span></div>Yükleniyor…</div></div>
+  </div>
+</div>
+
+<!-- ═══ TAKVİM ═══ -->
+<div id="page-calendar" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">📅 Takvim</div><div class="page-sub" id="cal-week-label">BU HAFTA</div></div>
+    </div>
+    <div class="cal-week" id="cal-week"></div>
+    <div class="card" style="margin-top:13px">
+      <div class="clabel">Etkinlik Ekle</div>
+      <div class="cal-add">
+        <input class="fin" type="text" id="ev-text" placeholder="Etkinlik adı…" style="flex:2"/>
+        <input class="fin" type="date" id="ev-date" style="flex:1"/>
+        <select class="fin" id="ev-type">
+          <option value="ev-work">İş</option>
+          <option value="ev-personal">Kişisel</option>
+          <option value="ev-reminder">Hatırlatıcı</option>
+        </select>
+        <button class="btn" onclick="addEvent()">+ Ekle</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NOTLAR ═══ -->
+<div id="page-notes" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">📝 Notlar</div><div class="page-sub">OTOMATİK KAYIT · LOCALSTORAGE</div></div>
+      <button class="btn" onclick="newNote()">+ Yeni Not</button>
+    </div>
+    <div class="notes-layout">
+      <div>
+        <div id="notes-list"></div>
+        <div class="notes-add-btn" onclick="newNote()">+ Yeni Not Ekle</div>
+      </div>
+      <div class="note-editor">
+        <input type="text" class="note-title-input" id="note-title" placeholder="Not başlığı…" oninput="autoSaveNote()"/>
+        <textarea class="note-body-input" id="note-body" placeholder="Notunuzu buraya yazın…" oninput="autoSaveNote()"></textarea>
+        <div class="note-meta">
+          <span id="note-meta-date">—</span>
+          <button class="btn" onclick="saveNote()" style="padding:6px 14px;font-size:10px">💾 Kaydet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LİNKLER ═══ -->
+<div id="page-links" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">🔗 Hızlı Linkler</div><div class="page-sub">SIK KULLANILAN SİTELER</div></div>
+    </div>
+    <div class="links-grid" id="links-grid"></div>
+    <div class="laf" id="link-add-form" style="margin-top:13px">
+      <div class="clabel" style="margin-bottom:12px">Yeni Link Ekle</div>
+      <div class="laf-row">
+        <input class="fin" type="text" id="link-name" placeholder="Site adı"/>
+        <input class="fin" type="text" id="link-url" placeholder="https://…"/>
+        <input class="fin" type="text" id="link-icon" placeholder="Emoji" maxlength="2" style="max-width:80px"/>
+        <button class="btn" onclick="saveLink()">Ekle</button>
+        <button class="btn-cancel" onclick="toggleLinkForm()">İptal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SİSTEM ═══ -->
+<div id="page-system" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">💻 Sistem Monitörü</div><div class="page-sub" id="sys-updated">CANLI İZLEME</div></div>
+    </div>
+    <div class="sys-grid">
+      <div class="card">
+        <div class="clabel">İşlemci · CPU</div>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 120 120" width="130" height="130">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+            <circle id="cpu-arc" cx="60" cy="60" r="52" fill="none" stroke="var(--t)" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1s ease"/>
+          </svg>
+          <div class="gauge-val" id="cpu-val">0%</div>
+          <div class="gauge-sub">4 Çekirdek · 3.2 GHz</div>
+        </div>
+        <div id="cpu-cores"></div>
+      </div>
+      <div class="card">
+        <div class="clabel">Bellek · RAM</div>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 120 120" width="130" height="130">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+            <circle id="ram-arc" cx="60" cy="60" r="52" fill="none" stroke="var(--p)" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1s ease"/>
+          </svg>
+          <div class="gauge-val" id="ram-val">0%</div>
+          <div class="gauge-sub" id="ram-detail">— / 16 GB</div>
+        </div>
+        <div id="ram-apps"></div>
+      </div>
+      <div class="card">
+        <div class="clabel">Depolama · Disk</div>
+        <div id="disk-bars"></div>
+        <div class="clabel" style="margin-top:16px">Ağ · Network</div>
+        <div id="net-bars"></div>
+      </div>
+      <div class="card">
+        <div class="clabel">Çalışan Süreçler</div>
+        <div id="proc-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MÜZİK ═══ -->
+<div id="page-music" class="page">
+  <div class="wrap">
+    <div class="page-hdr">
+      <div><div class="page-title">🎵 Müzik</div><div class="page-sub">ÇALMA LİSTELERİ</div></div>
+    </div>
+    <div class="music-wrap">
+      <div id="playlist-list"></div>
+      <div>
+        <div class="yt-frame">
+          <iframe id="yt-player" width="340" height="250" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+        <div class="card" style="margin-top:13px">
+          <div class="clabel">Şu An</div>
+          <div id="now-playing" style="font-size:15px;font-weight:700;color:#fff">—</div>
+          <div id="now-genre" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mu);margin-top:4px">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
 <script>
-// ── CLOCK ──────────────────────────────────────────────
+// ── NAVİGASYON ─────────────────────────────────────────
+let sysInterval=null;
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  if(name!=='system'&&sysInterval){clearInterval(sysInterval);sysInterval=null;}
+  if(name==='news'&&!newsLoaded)fetchNews();
+  if(name==='crypto')fetchCrypto();
+  if(name==='calendar')renderCalendar();
+  if(name==='system')startSys();
+  if(name==='notes')renderNotes();
+  if(name==='links')renderLinks();
+  if(name==='music')initMusic();
+}
+
+// ── SAAT ───────────────────────────────────────────────
 function tick(){
   const now=new Date();
-  document.getElementById('clk').textContent=now.toLocaleTimeString('tr-TR',{hour12:false});
+  const t=now.toLocaleTimeString('tr-TR',{hour12:false});
   const d=now.toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('clk').textContent=t;
   document.getElementById('clkdate').textContent=d;
+  document.getElementById('sb-clk').textContent=t;
 }
-tick(); setInterval(tick,1000);
+tick();setInterval(tick,1000);
 
-// ── WEATHER ────────────────────────────────────────────
-const weatherData={
-  temp:19, feels:16, humidity:52, wind:14, desc:'Parçalı Bulutlu', icon:'⛅',
-  forecast:[
-    {day:'Pzt',i:'🌤',t:'22°'},{day:'Sal',i:'☀️',t:'25°'},
-    {day:'Çar',i:'🌧',t:'16°'},{day:'Per',i:'🌦',t:'18°'},{day:'Cum',i:'⛅',t:'20°'}
-  ]
-};
-
+// ── HAVA DURUMU ────────────────────────────────────────
+const wFallback={temp:19,feels:16,humidity:52,wind:14,desc:'Parçalı Bulutlu',icon:'⛅',forecast:[{day:'Pzt',i:'🌤',t:'22°'},{day:'Sal',i:'☀️',t:'25°'},{day:'Çar',i:'🌧',t:'16°'},{day:'Per',i:'🌦',t:'18°'},{day:'Cum',i:'⛅',t:'20°'}]};
 function renderWeather(w){
   document.getElementById('stat-temp').textContent=w.temp+'°C';
-  document.getElementById('weather-body').innerHTML=`
-    <div style="position:relative">
-      <div class="wemoji">${w.icon}</div>
-      <div class="wtemp">${w.temp}<sup>°C</sup></div>
-      <div class="wcity">📍 Ankara, TR</div>
-      <div class="wdesc">${w.desc}</div>
-    </div>
-    <div class="wstats">
-      <div class="ws-item"><div class="ws-label">Hissedilen</div><div class="ws-val">${w.feels}°C</div></div>
-      <div class="ws-item"><div class="ws-label">Nem</div><div class="ws-val">${w.humidity}%</div></div>
-      <div class="ws-item"><div class="ws-label">Rüzgar</div><div class="ws-val">${w.wind} km/h</div></div>
-    </div>
-    <div class="forecast">
-      ${w.forecast.map(f=>`<div class="fc"><div class="fcday">${f.day}</div><div class="fci">${f.i}</div><div class="fct">${f.t}</div></div>`).join('')}
-    </div>`;
+  document.getElementById('weather-body').innerHTML=`<div style="position:relative"><div class="wemoji">${w.icon}</div><div class="wtemp">${w.temp}<sup>°C</sup></div><div class="wcity">📍 Ankara, TR</div><div class="wdesc">${w.desc}</div></div><div class="wstats"><div class="ws-item"><div class="ws-label">Hissedilen</div><div class="ws-val">${w.feels}°C</div></div><div class="ws-item"><div class="ws-label">Nem</div><div class="ws-val">${w.humidity}%</div></div><div class="ws-item"><div class="ws-label">Rüzgar</div><div class="ws-val">${w.wind} km/h</div></div></div><div class="forecast">${w.forecast.map(f=>`<div class="fc"><div class="fcday">${f.day}</div><div class="fci">${f.i}</div><div class="fct">${f.t}</div></div>`).join('')}</div>`;
 }
-renderWeather(weatherData);
-
+renderWeather(wFallback);
 async function fetchWeather(){
   try{
     const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=39.9334&longitude=32.8597&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max&timezone=Europe/Istanbul&forecast_days=5');
-    if(!r.ok)throw new Error();
+    if(!r.ok)throw 0;
     const d=await r.json();
-    const codes={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',71:'🌨',73:'🌨',75:'❄️',80:'🌦',81:'🌧',82:'⛈',95:'⛈',99:'⛈'};
+    const codes={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',51:'🌦',55:'🌧',61:'🌧',65:'🌧',80:'🌦',82:'⛈',95:'⛈'};
     const descs={0:'Açık',1:'Az Bulutlu',2:'Parçalı Bulutlu',3:'Kapalı',45:'Sisli',51:'Hafif Yağmur',61:'Yağmurlu',80:'Sağanak',95:'Gök Gürültülü'};
     const ic=d.current.weather_code;
     const days=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
-    const fc=d.daily.time.slice(0,5).map((t,i)=>{
-      const day=new Date(t);
-      return{day:days[day.getDay()],i:codes[d.daily.weather_code[i]]||'⛅',t:Math.round(d.daily.temperature_2m_max[i])+'°'};
-    });
-    const w={
-      temp:Math.round(d.current.temperature_2m),
-      feels:Math.round(d.current.apparent_temperature),
-      humidity:d.current.relative_humidity_2m,
-      wind:Math.round(d.current.wind_speed_10m),
-      desc:descs[ic]||'Bulutlu',
-      icon:codes[ic]||'⛅',
-      forecast:fc
-    };
-    renderWeather(w);
-  }catch(e){renderWeather(weatherData);}
+    const fc=d.daily.time.slice(0,5).map((t,i)=>{const day=new Date(t);return{day:days[day.getDay()],i:codes[d.daily.weather_code[i]]||'⛅',t:Math.round(d.daily.temperature_2m_max[i])+'°'};});
+    renderWeather({temp:Math.round(d.current.temperature_2m),feels:Math.round(d.current.apparent_temperature),humidity:d.current.relative_humidity_2m,wind:Math.round(d.current.wind_speed_10m),desc:descs[ic]||'Bulutlu',icon:codes[ic]||'⛅',forecast:fc});
+  }catch{renderWeather(wFallback);}
 }
 fetchWeather();
 
-// ── CURRENCY ───────────────────────────────────────────
-const fallbackRates={USD:{val:38.42,ch:'+0.18',up:true},EUR:{val:41.87,ch:'+0.31',up:true},GBP:{val:48.23,ch:'-0.12',up:false},CHF:{val:43.11,ch:'+0.07',up:true}};
+// ── DÖVİZ ──────────────────────────────────────────────
+const fbRates={USD:{val:38.42,ch:'+0.18',up:true},EUR:{val:41.87,ch:'+0.31',up:true},GBP:{val:48.23,ch:'-0.12',up:false},CHF:{val:43.11,ch:'+0.07',up:true}};
 const flagMap={USD:'🇺🇸',EUR:'🇪🇺',GBP:'🇬🇧',CHF:'🇨🇭'};
 const nameMap={USD:'Amerikan Doları',EUR:'Euro',GBP:'İngiliz Sterlini',CHF:'İsviçre Frangı'};
-const sparkData={
-  USD:[36.1,36.8,37.2,37.0,37.6,38.0,37.8,38.2,38.42],
-  EUR:[39.5,40.1,40.8,40.5,41.0,41.4,41.2,41.6,41.87]
-};
+const sparkUSD=[36.1,36.8,37.2,37.0,37.6,38.0,37.8,38.2,38.42];
 
 function makeSpark(data,color){
-  const w=200,h=32;
-  const mn=Math.min(...data),mx=Math.max(...data),rng=mx-mn||1;
+  const w=200,h=32,mn=Math.min(...data),mx=Math.max(...data),rng=mx-mn||1;
   const pts=data.map((v,i)=>`${(i/(data.length-1))*w},${h-((v-mn)/rng)*(h-4)+2}`).join(' ');
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="display:block"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/></svg>`;
 }
 
 function renderCurrency(rates){
-  const pairs=Object.entries(rates);
   document.getElementById('stat-usd').textContent='₺'+rates.USD.val.toFixed(2);
-  let html=pairs.map(([code,r])=>`
-    <div class="crow">
-      <div class="cleft"><div class="cflag">${flagMap[code]}</div><div><div class="cname">${code}/TRY</div><div class="cfull">${nameMap[code]}</div></div></div>
-      <div class="cright">
-        <div class="cval">₺${r.val.toFixed(2)}</div>
-        <div class="ctag ${r.up?'cup':'cdn'}">${r.up?'▲':'▼'} ${r.ch}</div>
-      </div>
-    </div>`).join('');
-  html+=`<div class="sparkwrap"><div class="spark-label">USD 7 Günlük Trend</div>${makeSpark(sparkData.USD,'#00ffc8')}</div>`;
+  let html=Object.entries(rates).map(([code,r])=>`<div class="crow"><div class="cleft"><div class="cflag">${flagMap[code]}</div><div><div class="cname">${code}/TRY</div><div class="cfull">${nameMap[code]}</div></div></div><div style="text-align:right"><div class="cval">₺${r.val.toFixed(2)}</div><div class="ctag ${r.up?'cup':'cdn'}">${r.up?'▲':'▼'} ${r.ch}</div></div></div>`).join('');
+  html+=`<div class="sparkwrap"><div class="spark-label">USD 7 Günlük Trend</div>${makeSpark(sparkUSD,'#00ffc8')}</div>`;
   document.getElementById('currency-body').innerHTML=html;
 }
-
 async function fetchCurrency(){
   try{
-    const r=await fetch('https://api.frankfurter.app/latest?from=USD,EUR,GBP,CHF&to=TRY');
-    if(!r.ok)throw new Error();
+    const r=await fetch('https://api.frankfurter.app/latest?base=TRY&symbols=USD,EUR,GBP,CHF');
+    if(!r.ok)throw 0;
     const d=await r.json();
-    // frankfurter returns base->TRY per currency
-    const rates={};
-    // Actually need reverse: fetch TRY base
-    throw new Error('use fallback structure');
-  }catch{
-    try{
-      const r=await fetch('https://api.frankfurter.app/latest?base=TRY&symbols=USD,EUR,GBP,CHF');
-      if(!r.ok)throw new Error();
-      const d=await r.json();
-      const built={};
-      ['USD','EUR','GBP','CHF'].forEach(c=>{
-        if(d.rates[c]){
-          const val=parseFloat((1/d.rates[c]).toFixed(2));
-          built[c]={val,ch:(Math.random()>.5?'+':'-')+(Math.random()*.4).toFixed(2),up:Math.random()>.4};
-        }
-      });
-      if(Object.keys(built).length>0)renderCurrency(built);
-      else renderCurrency(fallbackRates);
-    }catch{renderCurrency(fallbackRates);}
-  }
+    const built={};
+    ['USD','EUR','GBP','CHF'].forEach(c=>{if(d.rates[c]){const val=parseFloat((1/d.rates[c]).toFixed(2));built[c]={val,ch:(Math.random()>.5?'+':'-')+(Math.random()*.4).toFixed(2),up:Math.random()>.4};}});
+    if(Object.keys(built).length>0)renderCurrency(built);else renderCurrency(fbRates);
+  }catch{renderCurrency(fbRates);}
 }
 fetchCurrency();
 
 // ── HGS ────────────────────────────────────────────────
-const hgsTxs=[
-  {where:'Kurtboğazı Gişesi',when:'Bugün 08:14',amt:'₺12.50'},
-  {where:'İncesu Gişesi',when:'Dün 19:42',amt:'₺9.00'},
-  {where:'Temelli Gişesi',when:'Dün 08:05',amt:'₺12.50'},
-  {where:'Bakiye Yükleme',when:'25 Nis',amt:'₺+200.00'},
-];
-document.getElementById('hgs-txs').innerHTML=hgsTxs.map(t=>`
-  <div class="htx">
-    <div class="htx-left"><div class="htx-where">${t.where}</div><div class="htx-when">${t.when}</div></div>
-    <div class="htx-amt" style="${t.amt.includes('+')?'color:var(--g)':''}">${t.amt}</div>
-  </div>`).join('');
+document.getElementById('hgs-txs').innerHTML=[{where:'Kurtboğazı Gişesi',when:'Bugün 08:14',amt:'₺12.50'},{where:'İncesu Gişesi',when:'Dün 19:42',amt:'₺9.00'},{where:'Temelli Gişesi',when:'Dün 08:05',amt:'₺12.50'},{where:'Bakiye Yükleme',when:'25 Nis',amt:'₺+200.00'}].map(t=>`<div class="htx"><div><div class="htx-where">${t.where}</div><div class="htx-when">${t.when}</div></div><div class="htx-amt" style="${t.amt.includes('+')?'color:var(--g)':''}">${t.amt}</div></div>`).join('');
 
 // ── STEAM ──────────────────────────────────────────────
-const steamGames=[
-  {icon:'🏎',name:'Cyberpunk 2077',tags:['RPG','Açık Dünya'],disc:'-70%',old:'₺599',price:'₺179'},
-  {icon:'⚔️',name:'Elden Ring',tags:['Soulslike','RPG'],disc:'-35%',old:'₺449',price:'₺291'},
-  {icon:'🔫',name:'Baldur\'s Gate 3',tags:['RPG','Coop'],disc:'-25%',old:'₺549',price:'₺411'},
-  {icon:'🌍',name:'Cities: Skylines II',tags:['Strateji','Simülasyon'],disc:'-50%',old:'₺399',price:'₺199'},
-  {icon:'🚀',name:'Starfield',tags:['Açık Dünya','Sci-Fi'],disc:'-60%',old:'₺499',price:'₺199'},
-];
-
+const steamGames=[{icon:'🏎',name:'Cyberpunk 2077',tags:['RPG','Açık Dünya'],disc:'-70%',old:'₺599',price:'₺179'},{icon:'⚔️',name:'Elden Ring',tags:['Soulslike','RPG'],disc:'-35%',old:'₺449',price:'₺291'},{icon:'🔫',name:"Baldur's Gate 3",tags:['RPG','Coop'],disc:'-25%',old:'₺549',price:'₺411'},{icon:'🌍',name:'Cities: Skylines II',tags:['Strateji','Sim'],disc:'-50%',old:'₺399',price:'₺199'},{icon:'🚀',name:'Starfield',tags:['Açık Dünya','Sci-Fi'],disc:'-60%',old:'₺499',price:'₺199'}];
 function renderSteam(){
-  document.getElementById('steam-body').innerHTML=steamGames.map(g=>`
-    <div class="sgame">
-      <div class="sthumb">${g.icon}</div>
-      <div class="sinfo">
-        <div class="sname">${g.name}</div>
-        <div class="stags">${g.tags.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
-      </div>
-      <div class="sprice">
-        <div class="sdisc">${g.disc}</div>
-        <span class="sold">${g.old}</span>
-        <span class="snew">${g.price}</span>
-      </div>
-    </div>`).join('')+
-    `<div class="steam-refresh" onclick="renderSteam()">↻ Listeyi yenile</div>`;
+  document.getElementById('steam-body').innerHTML=steamGames.map(g=>`<div class="sgame"><div class="sthumb">${g.icon}</div><div class="sinfo"><div class="sname">${g.name}</div><div class="stags">${g.tags.map(t=>`<span class="stag">${t}</span>`).join('')}</div></div><div style="text-align:right;flex-shrink:0"><div class="sdisc">${g.disc}</div><span class="sold">${g.old}</span><span class="snew">${g.price}</span></div></div>`).join('')+`<div class="steam-refresh" onclick="renderSteam()">↻ Listeyi yenile</div>`;
 }
 renderSteam();
 
-// ── IT TASKS ───────────────────────────────────────────
-let tasks=[
-  {text:'VPN sertifikalarını yenile',done:false,prio:'high'},
-  {text:'Backup scriptini test et',done:false,prio:'high'},
-  {text:'Docker image\'ları güncelle',done:true,prio:'med'},
-  {text:'Log rotasyon ayarlarını kontrol et',done:false,prio:'med'},
-  {text:'Firewall kurallarını gözden geçir',done:false,prio:'low'},
-];
-
-function updateTaskStat(){
+// ── GÖREVLER ───────────────────────────────────────────
+let tasks=[{text:'VPN sertifikalarını yenile',done:false,prio:'high'},{text:'Backup scriptini test et',done:false,prio:'high'},{text:'Docker image\'ları güncelle',done:true,prio:'med'},{text:'Log rotasyon ayarlarını kontrol et',done:false,prio:'med'},{text:'Firewall kurallarını gözden geçir',done:false,prio:'low'}];
+function renderTasks(){
+  document.getElementById('tasks-list').innerHTML=tasks.map((t,i)=>`<div class="task"><div class="tcheck ${t.done?'done':''}" onclick="toggleTask(${i})">${t.done?'✓':''}</div><div class="ttext ${t.done?'done':''}">${t.text}</div><div class="tprio tp-${t.prio}">${t.prio==='high'?'YÜK':t.prio==='med'?'ORT':'DÜŞ'}</div></div>`).join('');
   document.getElementById('stat-tasks').textContent=tasks.filter(t=>!t.done).length;
 }
-
-function renderTasks(){
-  document.getElementById('tasks-list').innerHTML=tasks.map((t,i)=>`
-    <div class="task">
-      <div class="tcheck ${t.done?'done':''}" onclick="toggleTask(${i})">${t.done?'✓':''}</div>
-      <div class="tinfo"><div class="ttext ${t.done?'done':''}">${t.text}</div></div>
-      <div class="tprio tp-${t.prio}">${t.prio==='high'?'YÜK':t.prio==='med'?'ORT':'DÜŞ'}</div>
-    </div>`).join('');
-  updateTaskStat();
-}
-
 function toggleTask(i){tasks[i].done=!tasks[i].done;renderTasks();}
-
-function addTask(){
-  const inp=document.getElementById('task-input');
-  const val=inp.value.trim();
-  if(!val)return;
-  tasks.unshift({text:val,done:false,prio:'med'});
-  renderTasks();
-  inp.value='';
-}
-
+function addTask(){const inp=document.getElementById('task-input');const val=inp.value.trim();if(!val)return;tasks.unshift({text:val,done:false,prio:'med'});renderTasks();inp.value='';}
 document.getElementById('task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
 renderTasks();
 
+// ── HABERLER ───────────────────────────────────────────
+let newsLoaded=false;
+const fallbackNews=[
+  {title:'Apple M4 çipi yeni Mac modellerinde kullanılmaya başlandı',desc:'Apple\'ın en yeni işlemcisi M4, iMac ve MacBook Pro modellerinde standart donanım haline geliyor.',date:'24.04.2026',link:'#',source:'TechNews'},
+  {title:'OpenAI GPT-5\'i duyurdu: Çok modlu yetenekler ön plana çıkıyor',desc:'OpenAI\'ın yeni modeli gerçek zamanlı görüntü ve ses işleme konusunda büyük adımlar attı.',date:'24.04.2026',link:'#',source:'TechNews'},
+  {title:'Türkiye Yapay Zeka Stratejisi 2026-2030 yayınlandı',desc:'BTK\'nın hazırladığı ulusal yapay zeka stratejisi, 5 yıllık hedefleri ve yatırım planlarını ortaya koyuyor.',date:'23.04.2026',link:'#',source:'Bilişim'},
+  {title:'Linux 6.9 kernel güncellemesi yayınlandı',desc:'Yeni kernel sürümü AMD ve NVIDIA GPU desteğini önemli ölçüde geliştiriyor, güvenlik yamaları içeriyor.',date:'23.04.2026',link:'#',source:'Linux'},
+  {title:'Cloudflare Workers AI yeni modeller ekledi',desc:'Edge AI platformu Llama 3 ve Mistral modellerini desteklemeye başladı.',date:'22.04.2026',link:'#',source:'Cloud'},
+  {title:'GitHub Copilot Workspace genel erişime açıldı',desc:'GitHub\'ın yapay zeka destekli geliştirme ortamı artık tüm kullanıcılara ücretsiz açık.',date:'22.04.2026',link:'#',source:'DevTools'},
+  {title:'AMD RX 9070 XT benchmark sonuçları sızdı',desc:'AMD\'nin yeni GPU\'su, NVIDIA RTX 5080\'e güçlü bir rakip olarak öne çıkıyor.',date:'21.04.2026',link:'#',source:'Hardware'},
+  {title:'Python 3.14 beta sürümü yayınlandı',desc:'Yeni sürümde önemli performans iyileştirmeleri ve tip sistemi geliştirmeleri yer alıyor.',date:'21.04.2026',link:'#',source:'Dev'},
+  {title:'Tesla Cybertruck Türkiye\'ye geliyor',desc:'Tesla, Cybertruck modelini Türkiye pazarına 2026 sonunda sunmayı planlıyor.',date:'20.04.2026',link:'#',source:'EV'},
+];
+async function fetchNews(){
+  document.getElementById('news-body').innerHTML='<div class="loading"><div class="lds"><span></span><span></span><span></span></div>Haberler yükleniyor…</div>';
+  let articles=[];
+  try{
+    const feeds=['https://feeds.bbci.co.uk/news/technology/rss.xml','https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml'];
+    for(const url of feeds){
+      try{
+        const r=await fetch('https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(url)+'&count=5');
+        if(!r.ok)continue;
+        const d=await r.json();
+        if(d.items)articles=articles.concat(d.items.map(it=>({title:it.title,desc:(it.description||'').replace(/<[^>]*>/g,'').slice(0,150),date:it.pubDate?new Date(it.pubDate).toLocaleDateString('tr-TR'):'',link:it.link,source:d.feed?.title||'RSS'})));
+      }catch{}
+    }
+  }catch{}
+  if(articles.length===0)articles=fallbackNews;
+  document.getElementById('news-body').innerHTML=`<div class="news-grid">${articles.slice(0,9).map(a=>`<a href="${a.link}" target="_blank" rel="noopener" class="news-card"><div class="news-source">${a.source}</div><div class="news-title">${a.title}</div><div class="news-desc">${a.desc}</div><div class="news-date">${a.date}</div></a>`).join('')}</div>`;
+  newsLoaded=true;
+}
+
+// ── KRİPTO ─────────────────────────────────────────────
+const coins=[{id:'bitcoin',name:'Bitcoin',sym:'BTC',icon:'₿'},{id:'ethereum',name:'Ethereum',sym:'ETH',icon:'Ξ'},{id:'solana',name:'Solana',sym:'SOL',icon:'◎'},{id:'binancecoin',name:'BNB',sym:'BNB',icon:'⬡'},{id:'ripple',name:'XRP',sym:'XRP',icon:'✕'},{id:'cardano',name:'Cardano',sym:'ADA',icon:'◈'}];
+const cryptoFb={bitcoin:{usd:67420,try:2591340,usd_24h_change:2.34},ethereum:{usd:3180,try:122220,usd_24h_change:1.87},solana:{usd:142,try:5456,usd_24h_change:-0.92},binancecoin:{usd:578,try:22218,usd_24h_change:0.65},ripple:{usd:0.52,try:19.98,usd_24h_change:-1.23},cardano:{usd:0.44,try:16.9,usd_24h_change:3.12}};
+function renderCrypto(prices){
+  document.getElementById('crypto-updated').textContent='SON GÜNCELLEME: '+new Date().toLocaleTimeString('tr-TR');
+  document.getElementById('crypto-body').innerHTML=`<div class="crypto-grid">${coins.map(c=>{const p=prices[c.id]||cryptoFb[c.id];const ch=p.usd_24h_change||0;const up=ch>=0;const spark=Array.from({length:10},()=>p.usd*(0.95+Math.random()*.1));spark[9]=p.usd;return `<div class="crypto-card"><div class="crypto-logo">${c.icon}</div><div class="crypto-name">${c.name} · ${c.sym}</div><div class="crypto-usd">$${p.usd.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})}</div><div class="crypto-try">₺${p.try?p.try.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}):'—'}</div><div class="crypto-ch ${up?'cup':'cdn'}">${up?'▲':'▼'} %${Math.abs(ch).toFixed(2)} (24s)</div><div class="crypto-spark">${makeSpark(spark,up?'#00e676':'#ff4d6d')}</div></div>`;}).join('')}</div>`;
+}
+async function fetchCrypto(){
+  try{
+    const ids=coins.map(c=>c.id).join(',');
+    const r=await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd,try&include_24hr_change=true`);
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    const prices={};
+    coins.forEach(c=>{if(d[c.id])prices[c.id]={usd:d[c.id].usd,try:d[c.id].try,usd_24h_change:d[c.id].usd_24h_change};});
+    renderCrypto(prices);
+  }catch{renderCrypto(cryptoFb);}
+}
+
+// ── TAKVİM ─────────────────────────────────────────────
+let calEvents=JSON.parse(localStorage.getItem('cal-events')||'[]');
+function saveCalEvents(){localStorage.setItem('cal-events',JSON.stringify(calEvents));}
+function renderCalendar(){
+  const now=new Date();
+  const dow=now.getDay();
+  const mon=new Date(now);mon.setDate(now.getDate()-(dow===0?6:dow-1));
+  const dnames=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+  const week=Array.from({length:7},(_,i)=>{const d=new Date(mon);d.setDate(mon.getDate()+i);return d;});
+  document.getElementById('cal-week-label').textContent=`${week[0].toLocaleDateString('tr-TR',{day:'numeric',month:'long'})} — ${week[6].toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}`;
+  document.getElementById('cal-week').innerHTML=week.map((d,i)=>{
+    const iso=d.toISOString().split('T')[0];
+    const isToday=d.toDateString()===now.toDateString();
+    const evs=calEvents.filter(e=>e.date===iso);
+    return `<div class="cal-day ${isToday?'today':''}"><div class="cal-day-name">${dnames[i]}</div><div class="cal-day-num">${d.getDate()}</div>${evs.map(e=>`<div class="cal-event ${e.type}"><span>${e.text}</span><span class="ev-del" onclick="delEvent(${e.id})">✕</span></div>`).join('')}</div>`;
+  }).join('');
+  document.getElementById('ev-date').value=now.toISOString().split('T')[0];
+}
+function addEvent(){
+  const text=document.getElementById('ev-text').value.trim();
+  const date=document.getElementById('ev-date').value;
+  const type=document.getElementById('ev-type').value;
+  if(!text||!date)return;
+  calEvents.push({id:Date.now(),text,date,type});
+  saveCalEvents();renderCalendar();
+  document.getElementById('ev-text').value='';
+}
+function delEvent(id){calEvents=calEvents.filter(e=>e.id!==id);saveCalEvents();renderCalendar();}
+
+// ── NOTLAR ─────────────────────────────────────────────
+let notes=JSON.parse(localStorage.getItem('notes')||'[]');
+let activeNoteId=null,autoSaveTimer=null;
+function saveNotes(){localStorage.setItem('notes',JSON.stringify(notes));}
+function renderNotes(){
+  document.getElementById('notes-list').innerHTML=notes.map(n=>`<div class="note-item ${n.id===activeNoteId?'active':''}" onclick="openNote(${n.id})"><div class="note-item-title">${n.title||'Başlıksız Not'}</div><div class="note-item-preview">${(n.body||'').slice(0,50)||'…'}</div><div class="note-item-date">${n.updated}</div><span class="note-item-del" onclick="event.stopPropagation();delNote(${n.id})">✕</span></div>`).join('');
+  if(activeNoteId===null&&notes.length>0)openNote(notes[0].id);
+  else if(notes.length===0){document.getElementById('note-title').value='';document.getElementById('note-body').value='';document.getElementById('note-meta-date').textContent='—';}
+}
+function openNote(id){
+  activeNoteId=id;
+  const n=notes.find(n=>n.id===id);if(!n)return;
+  document.getElementById('note-title').value=n.title||'';
+  document.getElementById('note-body').value=n.body||'';
+  document.getElementById('note-meta-date').textContent='Güncellendi: '+n.updated;
+  document.querySelectorAll('.note-item').forEach(el=>el.classList.remove('active'));
+  const el=document.querySelector(`.note-item[onclick="openNote(${id})"]`);if(el)el.classList.add('active');
+}
+function newNote(){const id=Date.now();notes.unshift({id,title:'',body:'',updated:new Date().toLocaleDateString('tr-TR')});saveNotes();activeNoteId=id;renderNotes();document.getElementById('note-title').focus();}
+function delNote(id){notes=notes.filter(n=>n.id!==id);if(activeNoteId===id)activeNoteId=notes.length>0?notes[0].id:null;saveNotes();renderNotes();}
+function saveNote(){if(activeNoteId===null)return;const idx=notes.findIndex(n=>n.id===activeNoteId);if(idx===-1)return;notes[idx].title=document.getElementById('note-title').value;notes[idx].body=document.getElementById('note-body').value;notes[idx].updated=new Date().toLocaleDateString('tr-TR');document.getElementById('note-meta-date').textContent='Güncellendi: '+notes[idx].updated;saveNotes();renderNotes();}
+function autoSaveNote(){clearTimeout(autoSaveTimer);autoSaveTimer=setTimeout(saveNote,800);}
+
+// ── LİNKLER ────────────────────────────────────────────
+const defaultLinks=[{name:'GitHub',url:'https://github.com',icon:'🐙'},{name:'Google',url:'https://google.com',icon:'🔍'},{name:'YouTube',url:'https://youtube.com',icon:'▶️'},{name:'Gmail',url:'https://mail.google.com',icon:'📧'},{name:'ChatGPT',url:'https://chatgpt.com',icon:'🤖'},{name:'Stack Overflow',url:'https://stackoverflow.com',icon:'📚'},{name:'Docker Hub',url:'https://hub.docker.com',icon:'🐳'},{name:'Figma',url:'https://figma.com',icon:'🎨'}];
+let userLinks=JSON.parse(localStorage.getItem('user-links')||'null');
+if(!userLinks){userLinks=[...defaultLinks];localStorage.setItem('user-links',JSON.stringify(userLinks));}
+function renderLinks(){
+  document.getElementById('links-grid').innerHTML=userLinks.map((l,i)=>`<a href="${l.url}" target="_blank" rel="noopener" style="text-decoration:none"><div class="link-card"><span class="link-del" onclick="event.preventDefault();event.stopPropagation();delLink(${i})">✕</span><div class="link-icon">${l.icon}</div><div class="link-name">${l.name}</div><div class="link-url">${l.url.replace('https://','')}</div></div></a>`).join('')+`<div class="link-add-card" onclick="toggleLinkForm()"><div style="font-size:28px;margin-bottom:6px">+</div><div style="font-size:12px;font-weight:700;color:var(--mu)">Link Ekle</div></div>`;
+}
+function toggleLinkForm(){document.getElementById('link-add-form').classList.toggle('open');}
+function saveLink(){const name=document.getElementById('link-name').value.trim();const url=document.getElementById('link-url').value.trim();const icon=document.getElementById('link-icon').value.trim()||'🔗';if(!name||!url)return;userLinks.push({name,url:url.startsWith('http')?url:'https://'+url,icon});localStorage.setItem('user-links',JSON.stringify(userLinks));renderLinks();['link-name','link-url','link-icon'].forEach(id=>document.getElementById(id).value='');document.getElementById('link-add-form').classList.remove('open');}
+function delLink(i){userLinks.splice(i,1);localStorage.setItem('user-links',JSON.stringify(userLinks));renderLinks();}
+
+// ── SİSTEM MONİTÖR ─────────────────────────────────────
+const procList=[{name:'node.exe',cpu:12.4,mem:'234 MB'},{name:'chrome.exe',cpu:8.1,mem:'1.2 GB'},{name:'docker.exe',cpu:5.3,mem:'512 MB'},{name:'code.exe',cpu:3.7,mem:'380 MB'},{name:'system',cpu:1.2,mem:'128 MB'}];
+function updateSys(){
+  const cpu=Math.floor(Math.random()*40+20);
+  const ram=Math.floor(Math.random()*30+50);
+  const circ=326.7;
+  document.getElementById('cpu-val').textContent=cpu+'%';
+  document.getElementById('cpu-arc').style.strokeDashoffset=circ-(cpu/100)*circ;
+  document.getElementById('cpu-arc').style.stroke=cpu>80?'var(--r)':cpu>60?'var(--a)':'var(--t)';
+  document.getElementById('ram-val').textContent=ram+'%';
+  document.getElementById('ram-arc').style.strokeDashoffset=circ-(ram/100)*circ;
+  document.getElementById('ram-detail').textContent=((ram/100)*16).toFixed(1)+' / 16 GB';
+  document.getElementById('cpu-cores').innerHTML=['C1','C2','C3','C4'].map(c=>{const v=Math.floor(Math.random()*50+10);return `<div class="sbar-row"><span class="sbar-lbl">${c}</span><div class="sbar-bg"><div class="sbar-fill" style="background:var(--t);width:${v}%"></div></div><span class="sbar-val">${v}%</span></div>`;}).join('');
+  document.getElementById('disk-bars').innerHTML=[{l:'SSD (C:)',v:72,c:'var(--b)'},{l:'HDD (D:)',v:45,c:'var(--a)'}].map(d=>`<div class="sbar-row"><span class="sbar-lbl">${d.l}</span><div class="sbar-bg"><div class="sbar-fill" style="background:${d.c};width:${d.v}%"></div></div><span class="sbar-val">${d.v}%</span></div>`).join('');
+  const dl=Math.floor(Math.random()*60+10),ul=Math.floor(Math.random()*20+5);
+  document.getElementById('net-bars').innerHTML=`<div class="sbar-row"><span class="sbar-lbl">⬇ İndirme</span><div class="sbar-bg"><div class="sbar-fill" style="background:var(--g);width:${Math.min(dl,100)}%"></div></div><span class="sbar-val">${dl} MB/s</span></div><div class="sbar-row"><span class="sbar-lbl">⬆ Yükleme</span><div class="sbar-bg"><div class="sbar-fill" style="background:var(--t);width:${Math.min(ul*5,100)}%"></div></div><span class="sbar-val">${ul} MB/s</span></div>`;
+  document.getElementById('ram-apps').innerHTML=[{l:'Chrome',p:35,c:'var(--b)'},{l:'Docker',p:18,c:'var(--p)'},{l:'VS Code',p:12,c:'var(--t)'},{l:'Diğer',p:Math.max(0,ram-65),c:'var(--mu)'}].map(a=>`<div class="sbar-row"><span class="sbar-lbl">${a.l}</span><div class="sbar-bg"><div class="sbar-fill" style="background:${a.c};width:${a.p}%"></div></div><span class="sbar-val">${a.p}%</span></div>`).join('');
+  document.getElementById('proc-list').innerHTML=procList.map(p=>`<div class="proc-row"><span class="proc-name">${p.name}</span><span class="proc-cpu">${(p.cpu+(Math.random()*2-1)).toFixed(1)}% CPU</span><span class="proc-mem">${p.mem}</span></div>`).join('');
+  document.getElementById('sys-updated').textContent='CANLI İZLEME · '+new Date().toLocaleTimeString('tr-TR');
+}
+function startSys(){if(sysInterval)clearInterval(sysInterval);updateSys();sysInterval=setInterval(updateSys,2000);}
+
+// ── MÜZİK ──────────────────────────────────────────────
+const playlists=[{name:'Lo-Fi Study',genre:'Chill · Focus · Study',icon:'📚',ytId:'jfKfPfyJRdk'},{name:'Synthwave',genre:'Retro · Neon · 80s Vibes',icon:'🌆',ytId:'4xDzrJKXOOY'},{name:'Dark Techno',genre:'Electronic · Industrial',icon:'⚡',ytId:'DXf_bFnpVyg'},{name:'Anime Beats',genre:'J-Pop · Chill · Lofi',icon:'🌸',ytId:'Na0w3Mz46GA'},{name:'Deep Focus',genre:'Ambient · Minimal · Work',icon:'🎯',ytId:'n61ULEU7CO0'},{name:'Cyberpunk Mix',genre:'Futuristic · Electronic',icon:'🤖',ytId:'UedTcufyrHc'}];
+let activePl=0,musicInited=false;
+function initMusic(){if(musicInited)return;musicInited=true;renderPlaylists();selectPl(0);}
+function renderPlaylists(){document.getElementById('playlist-list').innerHTML=playlists.map((p,i)=>`<div class="pl-item ${i===activePl?'active':''}" onclick="selectPl(${i})"><div class="pl-icon">${p.icon}</div><div><div class="pl-name">${p.name}</div><div class="pl-genre">${p.genre}</div></div></div>`).join('');}
+function selectPl(i){activePl=i;const p=playlists[i];document.getElementById('yt-player').src=`https://www.youtube.com/embed/${p.ytId}?rel=0`;document.getElementById('now-playing').textContent=p.name;document.getElementById('now-genre').textContent=p.genre;renderPlaylists();}
 </script>
 </body>
 </html>
