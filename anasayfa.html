@@ -122,27 +122,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .tasks-add button{background:rgba(0,255,200,.1);border:1px solid rgba(0,255,200,.2);color:var(--t);border-radius:9px;padding:8px 14px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;transition:all .2s}
 .tasks-add button:hover{background:rgba(0,255,200,.18)}
 
-/* CLAUDE AI */
-.ai-card{background:linear-gradient(135deg,rgba(176,111,255,0.07),rgba(0,255,200,0.04));border-color:rgba(176,111,255,0.18)}
-.ai-msgs{height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;padding-right:4px}
-.ai-msgs::-webkit-scrollbar{width:3px}
-.ai-msgs::-webkit-scrollbar-track{background:transparent}
-.ai-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
-.ai-msg{max-width:88%;padding:9px 13px;border-radius:12px;font-size:12.5px;line-height:1.55}
-.ai-msg.user{align-self:flex-end;background:rgba(0,255,200,0.1);border:1px solid rgba(0,255,200,0.18);color:var(--tx)}
-.ai-msg.assistant{align-self:flex-start;background:rgba(255,255,255,0.05);border:1px solid var(--br);color:var(--tx)}
-.ai-msg.typing{align-self:flex-start;background:rgba(255,255,255,0.05);border:1px solid var(--br);color:var(--mu);font-style:italic}
-.ai-input-row{display:flex;gap:8px}
-.ai-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--br);border-radius:11px;padding:9px 14px;color:var(--tx);font-family:'Syne',sans-serif;font-size:12.5px;outline:none;resize:none;transition:border-color .2s;height:40px;line-height:1.4}
-.ai-input:focus{border-color:rgba(176,111,255,.35)}
-.ai-input::placeholder{color:var(--mu)}
-.ai-send{background:linear-gradient(135deg,rgba(176,111,255,.2),rgba(0,255,200,.15));border:1px solid rgba(176,111,255,.3);color:var(--p);border-radius:11px;padding:9px 16px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;transition:all .2s;white-space:nowrap}
-.ai-send:hover{background:linear-gradient(135deg,rgba(176,111,255,.3),rgba(0,255,200,.22));transform:scale(1.03)}
-.ai-send:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.ai-header{display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.ai-avatar{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--p),var(--t));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.ai-title{font-size:14px;font-weight:700;color:#fff}
-.ai-sub{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--mu);margin-left:auto}
 
 /* MINI STAT CARDS */
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:13px}
@@ -241,30 +220,12 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
 
     <!-- IT TASKS -->
-    <div class="card c3">
+    <div class="card c4">
       <div class="clabel">✅ IT Görevleri</div>
       <div id="tasks-list"></div>
       <div class="tasks-add">
         <input type="text" id="task-input" placeholder="Yeni görev ekle…" />
         <button onclick="addTask()">+</button>
-      </div>
-    </div>
-
-    <!-- CLAUDE AI -->
-    <div class="card c4 ai-card">
-      <div class="ai-header">
-        <div class="ai-avatar">✦</div>
-        <div>
-          <div class="ai-title">Claude AI</div>
-        </div>
-        <div class="ai-sub" id="ai-model">claude-sonnet-4-5</div>
-      </div>
-      <div class="ai-msgs" id="ai-msgs">
-        <div class="ai-msg assistant">Sabah dashboardına hoş geldin Arda 👋 Hava durumu, kur bilgisi veya görevlerin hakkında bir şey sormak ister misin?</div>
-      </div>
-      <div class="ai-input-row">
-        <textarea class="ai-input" id="ai-input" placeholder="Bir şey sor…" rows="1" onkeydown="aiKey(event)"></textarea>
-        <button class="ai-send" id="ai-btn" onclick="aiSend()">Gönder ↗</button>
       </div>
     </div>
 
@@ -473,64 +434,6 @@ function addTask(){
 document.getElementById('task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
 renderTasks();
 
-// ── CLAUDE AI ──────────────────────────────────────────
-let aiHistory=[];
-
-function aiScroll(){
-  const el=document.getElementById('ai-msgs');
-  el.scrollTop=el.scrollHeight;
-}
-
-function aiAppend(role,text){
-  const el=document.getElementById('ai-msgs');
-  const d=document.createElement('div');
-  d.className=`ai-msg ${role}`;
-  d.textContent=text;
-  el.appendChild(d);
-  aiScroll();
-  return d;
-}
-
-async function aiSend(){
-  const inp=document.getElementById('ai-input');
-  const btn=document.getElementById('ai-btn');
-  const text=inp.value.trim();
-  if(!text)return;
-  inp.value='';
-  btn.disabled=true;
-  aiAppend('user',text);
-  aiHistory.push({role:'user',content:text});
-
-  const typing=aiAppend('typing','●●●');
-
-  const contextNote=`Sen Arda'nın kişisel sabah dashboard asistanısın. Şu an Ankara'dasın. 
-  Dashboard verileri: Hava ${weatherData.temp}°C ${weatherData.desc}, USD/TRY ≈₺${fallbackRates.USD.val}, HGS bakiyesi ₺247, ${tasks.filter(t=>!t.done).length} bekleyen IT görevi var.
-  Kısa, net ve Türkçe yanıtlar ver. Emoji kullanabilirsin.`;
-
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-5',
-        max_tokens:1000,
-        system:contextNote,
-        messages:aiHistory
-      })
-    });
-    const data=await res.json();
-    const reply=data.content?.[0]?.text||'Bir hata oluştu.';
-    typing.remove();
-    aiAppend('assistant',reply);
-    aiHistory.push({role:'assistant',content:reply});
-  }catch(e){
-    typing.remove();
-    aiAppend('assistant','API bağlantısı kurulamadı. Anthropic API key gerekli.');
-  }
-  btn.disabled=false;
-}
-
-function aiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();aiSend();}}
 </script>
 </body>
 </html>
